@@ -1,5 +1,11 @@
 [
   {
+    "title": "Обновление чего-то",
+    "date": "31 октября 2025",
+    "image": "https://example.com/images/update.jpg",
+    "text": "Мы обновили что-то, наверное что-то починили а наверное что-то сломали"
+  },
+  {
     "title": "Обновление брони",
     "date": "31 октября 2025",
     "image": "https://example.com/images/update.jpg",
