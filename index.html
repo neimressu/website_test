@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Правила сообщества | Наш проект</title>
+    <title>Новости проекта | Vestalis</title>
     <style>
         :root {
             --primary-color: #4a6fa5;
@@ -15,7 +15,7 @@
             --warning-color: #ffd43b;
             --danger-color: #ff6b6b;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -45,8 +45,6 @@
             border-radius: 10px;
             margin-bottom: 30px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
             opacity: 0;
             transform: translateX(-30px);
             transition: opacity 0.8s ease, transform 0.8s ease;
@@ -57,166 +55,103 @@
             transform: translateX(0);
         }
 
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-
         h1 {
             font-size: 2.8em;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .subtitle {
             font-size: 1.3em;
             opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
         }
 
-        .rules-section {
+        .news-section {
             background: white;
             border-radius: 10px;
             padding: 30px;
             margin-bottom: 25px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             opacity: 0;
             transform: translateX(-30px);
             transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
         }
 
-        .rules-section.animate {
+        .news-section.animate {
             opacity: 1;
             transform: translateX(0);
         }
 
-        .rules-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-        }
-
-        h2 i {
-            margin-right: 10px;
-            font-size: 1.4em;
-        }
-
-        h3 {
-            color: var(--secondary-color);
-            margin: 20px 0 12px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        h3 i {
-            margin-right: 8px;
-        }
-
-        .rule-item {
-            margin-bottom: 20px;
-            padding: 15px;
+        .news-item {
             border-left: 4px solid var(--primary-color);
             background-color: rgba(74, 111, 165, 0.05);
-            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 25px;
             transition: background-color 0.3s ease;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease, background-color 0.3s ease;
-        }
-
-        .rule-item.animate {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .rule-item:hover {
-            background-color: rgba(74, 111, 165, 0.1);
-        }
-
-        .rule-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .rule-number {
-            background: var(--primary-color);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .rule-title {
-            font-weight: 600;
-            color: var(--dark-color);
-            font-size: 1.1em;
-        }
-
-        .rule-description {
-            margin-left: 44px;
-            color: #555;
-        }
-
-        .important, .warning, .success {
             opacity: 0;
             transform: translateX(-20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        .important.animate, .warning.animate, .success.animate {
+        .news-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .news-item:hover {
+            background-color: rgba(74, 111, 165, 0.1);
+        }
+
+        .news-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1.2em;
+        }
+
+        .news-date {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .news-description {
+            color: #555;
+        }
+
+        .important, .update, .event {
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 5px solid;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .important.animate, .update.animate, .event.animate {
             opacity: 1;
             transform: translateX(0);
         }
 
         .important {
             background: rgba(255, 193, 7, 0.15);
-            border: 1px solid var(--warning-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 5px solid var(--warning-color);
+            border-color: var(--warning-color);
         }
 
-        .warning {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid var(--danger-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 5px solid var(--danger-color);
-        }
-
-        .success {
+        .update {
             background: rgba(40, 167, 69, 0.1);
-            border: 1px solid var(--success-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 5px solid var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .event {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: var(--danger-color);
         }
 
         footer {
@@ -257,183 +192,85 @@
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 2.2em;
-            }
-            
-            .rules-section {
-                padding: 20px;
-            }
-            
-            .rule-description {
-                margin-left: 0;
-                margin-top: 10px;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-        /* Иконки с использованием UTF-8 символов */
-        .icon {
-            font-style: normal;
+            .container { padding: 15px; }
+            h1 { font-size: 2.2em; }
+            .footer-links { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Правила сообщества</h1>
-            <p class="subtitle">Соблюдение этих правил обеспечивает комфортное и продуктивное общение для всех участников нашего сообщества</p>
+            <h1>Новости проекта Vestalis</h1>
+            <p class="subtitle">Все последние события, обновления и важные анонсы сообщества</p>
         </header>
 
-        <section class="rules-section">
-            <h2><i class="icon">📋</i> Основные правила</h2>
-            
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">1</span>
-                    <span class="rule-title">Уважайте других участников</span>
+        <section class="news-section">
+            <h2><i>📰</i> Последние новости</h2>
+
+            <div class="news-item">
+                <div class="news-header">
+                    <span class="news-title">⚙️ Обновление системы модов</span>
+                    <span class="news-date">30 октября 2025</span>
                 </div>
-                <p class="rule-description">Будьте вежливы и уважительны в общении. Оскорбления, угрозы, дискриминация по любым признакам, а также провокационное поведение строго запрещены.</p>
+                <p class="news-description">
+                    Сервер был обновлён до новой сборки Valk 1.20.1. Добавлены новые виды техники, переработаны текстуры и улучшена производительность клиента.
+                </p>
             </div>
 
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">2</span>
-                    <span class="rule-title">Запрещённый контент</span>
+            <div class="news-item">
+                <div class="news-header">
+                    <span class="news-title">🪖 Начало закрытого теста</span>
+                    <span class="news-date">28 октября 2025</span>
                 </div>
-                <p class="rule-description">Не размещайте материалы, нарушающие законодательство: спам, реклама, контент для взрослых, призывы к насилию, экстремизму или другим противоправным действиям.</p>
+                <p class="news-description">
+                    Закрытое тестирование проекта Vestalis открыто для избранных участников. Цель — сбор отзывов по боевой системе и работе серверных модулей.
+                </p>
             </div>
 
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">3</span>
-                    <span class="rule-title">Конфиденциальность</span>
-                </div>
-                <p class="rule-description">Не распространяйте личную информацию других пользователей без их явного согласия. Это включает в себя адреса, телефоны, фотографии и другие персональные данные.</p>
+            <div class="update">
+                <h3>✅ Обновление интерфейса</h3>
+                <p>Редизайн главного меню, добавление системы рангов и улучшенный визуальный стиль HUD. Исправлены ошибки с отображением статистики в бою.</p>
+            </div>
+
+            <div class="event">
+                <h3>🔥 Событие: «Операция Северный Рубеж»</h3>
+                <p>Участвуйте в масштабной PvP-операции на новой карте. Победившая сторона получит эксклюзивные предметы и медаль "Ветеран теста".</p>
             </div>
 
             <div class="important">
-                <h3><i class="icon">⚠️</i> Важно!</h3>
-                <p>Администрация оставляет за собой право удалять сообщения, редактировать контент и блокировать пользователей, нарушающих правила, без предварительного уведомления.</p>
-            </div>
-        </section>
-
-        <section class="rules-section">
-            <h2><i class="icon">💬</i> Правила общения</h2>
-            
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">4</span>
-                    <span class="rule-title">Тематика обсуждений</span>
-                </div>
-                <p class="rule-description">Соблюдайте тематику разделов. Оффтопик может быть перемещён в соответствующий раздел или удалён. Перед созданием новой темы убедитесь, что аналогичная тема уже не существует.</p>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">5</span>
-                    <span class="rule-title">Качество контента</span>
-                </div>
-                <p class="rule-description">Публикуйте осмысленные сообщения с полезной информацией. Односложные ответы, флуд, капслок (ПИСЬМО ЗАГЛАВНЫМИ БУКВАМИ) и чрезмерное использование смайликов не приветствуются.</p>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">6</span>
-                    <span class="rule-title">Авторские права</span>
-                </div>
-                <p class="rule-description">Указывайте источник при использование чужих материалов. Пиратство, распространение нелицензионного контента и плагиат строго запрещены.</p>
-            </div>
-
-            <div class="success">
-                <h3><i class="icon">💡</i> Рекомендации</h3>
-                <p>Используйте понятные заголовки для тем, делитесь проверенной информацией и помогайте другим участникам, если обладаете нужными знаниями по теме.</p>
-            </div>
-        </section>
-
-        <section class="rules-section">
-            <h2><i class="icon">⚙️</i> Технические правила</h2>
-            
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">7</span>
-                    <span class="rule-title">Форматирование</span>
-                </div>
-                <p class="rule-description">Используйте доступные средства форматирования для улучшения читаемости сообщений. Структурируйте текст с помощью абзацев, списков и заголовков.</p>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">8</span>
-                    <span class="rule-title">Файлы и изображения</span>
-                </div>
-                <p class="rule-description">Проверяйте загружаемые файлы на вирусы. Избегайте слишком больших файлов - используйте сжатие для изображений и предоставляйте ссылки на крупные файлы в облачных хранилищах.</p>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-header">
-                    <span class="rule-number">9</span>
-                    <span class="rule-title">Аккаунты и безопасность</span>
-                </div>
-                <p class="rule-description">Запрещено создание нескольких аккаунтов для обхода бана. Обеспечьте безопасность своего аккаунта, используя надежный пароль.</p>
-            </div>
-
-            <div class="warning">
-                <h3><i class="icon">🚫</i> Нарушения</h3>
-                <p>При систематических нарушениях правил или серьезных однократных нарушениях аккаунт может быть заблокирован без предупреждения. Решения модераторов и администрации являются окончательными.</p>
+                <h3>⚠️ Важно!</h3>
+                <p>Если вы столкнулись с ошибками после обновления, сообщите об этом через форму обратной связи или на нашем Discord-сервере в канале <b>#отчёты-о-багax</b>.</p>
             </div>
         </section>
 
         <footer>
-            <p>© 2024 Наше сообщество. Все права защищены.</p>
-            <p>Соблюдение этих правил поможет нам поддерживать дружелюбную и продуктивную атмосферу.</p>
+            <p>© 2025 Vestalis Project. Все права защищены.</p>
+            <p>Следите за обновлениями и оставайтесь с нами.</p>
             <div class="footer-links">
-                <a href="#">Главная страница</a>
-                <a href="#">О проекте</a>
-                <a href="mailto:admin@example.com">Связаться с нами</a>
+                <a href="#">Главная</a>
+                <a href="#">Discord</a>
+                <a href="#">Контакты</a>
             </div>
         </footer>
     </div>
 
     <script>
-        // Функция для проверки видимости элемента
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
-            return (
-                rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 &&
-                rect.bottom >= 0
-            );
+            return rect.top <= window.innerHeight * 0.85 && rect.bottom >= 0;
         }
 
-        // Функция для обработки появления элементов
         function handleScrollAnimation() {
-            const elements = document.querySelectorAll('.rules-section, .rule-item, .important, .warning, .success, header, footer');
-            
-            elements.forEach(element => {
-                if (isElementInViewport(element)) {
-                    element.classList.add('animate');
-                }
+            const elements = document.querySelectorAll('.news-section, .news-item, .important, .update, .event, header, footer');
+            elements.forEach(el => {
+                if (isElementInViewport(el)) el.classList.add('animate');
             });
         }
 
-        // Инициализация анимации при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            // Добавляем небольшую задержку для header
-            setTimeout(() => {
-                document.querySelector('header').classList.add('animate');
-            }, 300);
-            
-            // Обрабатываем скролл
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => document.querySelector('header').classList.add('animate'), 300);
             window.addEventListener('scroll', handleScrollAnimation);
-            // Проверяем видимость элементов при загрузке
             handleScrollAnimation();
         });
     </script>
