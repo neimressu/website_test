@@ -89,6 +89,102 @@
       margin-top: 5px;
     }
 
+    /* Стили для Markdown контента */
+    .news-content {
+      color: #c8ccd2;
+      font-size: 1em;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+    
+    .news-content h1, .news-content h2, .news-content h3 {
+      color: #ffffff;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .news-content h1 {
+      font-size: 1.6em;
+      border-bottom: 1px solid #2a2c30;
+      padding-bottom: 5px;
+    }
+    
+    .news-content h2 {
+      font-size: 1.4em;
+    }
+    
+    .news-content h3 {
+      font-size: 1.2em;
+    }
+    
+    .news-content p {
+      margin-bottom: 15px;
+    }
+    
+    .news-content ul, .news-content ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .news-content li {
+      margin-bottom: 5px;
+    }
+    
+    .news-content blockquote {
+      border-left: 4px solid var(--primary-color);
+      padding-left: 15px;
+      margin-left: 0;
+      margin-bottom: 15px;
+      color: #a0a8b0;
+    }
+    
+    .news-content code {
+      background-color: #1a1c1f;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    
+    .news-content pre {
+      background-color: #1a1c1f;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 15px;
+    }
+    
+    .news-content pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    .news-content a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .news-content a:hover {
+      text-decoration: underline;
+    }
+    
+    .news-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    
+    .news-content th, .news-content td {
+      border: 1px solid #2a2c30;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    
+    .news-content th {
+      background-color: #1a1c1f;
+      color: #ffffff;
+    }
+
     footer {
       text-align: center;
       margin-top: 70px;
@@ -123,6 +219,64 @@
   </div>
 
   <script>
+    // Простой парсер Markdown
+    function parseMarkdown(text) {
+      if (!text) return '';
+      
+      // Заголовки
+      text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+      
+      // Жирный текст
+      text = text.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
+      
+      // Курсив
+      text = text.replace(/\*(.*?)\*/gim, '<em>$1</em>');
+      
+      // Зачеркнутый текст
+      text = text.replace(/~~(.*?)~~/gim, '<del>$1</del>');
+      
+      // Ссылки
+      text = text.replace(/\[([^\[]+)\]\(([^\)]+)\)/gim, '<a href="$2">$1</a>');
+      
+      // Изображения
+      text = text.replace(/!\[([^\[]+)\]\(([^\)]+)\)/gim, '<img src="$2" alt="$1" class="news-img">');
+      
+      // Блочные цитаты
+      text = text.replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>');
+      
+      // Горизонтальные линии
+      text = text.replace(/^\-\-\-$/gim, '<hr>');
+      
+      // Неупорядоченные списки
+      text = text.replace(/^\s*\* (.*$)/gim, '<ul><li>$1</li></ul>');
+      text = text.replace(/<\/ul>\s*<ul>/gim, '');
+      
+      // Упорядоченные списки
+      text = text.replace(/^\s*[0-9]+\. (.*$)/gim, '<ol><li>$1</li></ol>');
+      text = text.replace(/<\/ol>\s*<ol>/gim, '');
+      
+      // Блочный код
+      text = text.replace(/```([^`]+)```/gim, '<pre><code>$1</code></pre>');
+      
+      // Встроенный код
+      text = text.replace(/`([^`]+)`/gim, '<code>$1</code>');
+      
+      // Таблицы (базовая поддержка)
+      text = text.replace(/\|(.+)\|/g, function(match, p1) {
+        const cells = p1.split('|').map(cell => `<td>${cell.trim()}</td>`).join('');
+        return `<tr>${cells}</tr>`;
+      });
+      
+      // Абзацы (обработка переносов строк)
+      text = text.replace(/\n\n/gim, '</p><p>');
+      text = '<p>' + text + '</p>';
+      text = text.replace(/<p><\/p>/g, '');
+      
+      return text;
+    }
+
     // Проверка, виден ли элемент на экране
     function isElementInViewport(el) {
       const rect = el.getBoundingClientRect();
@@ -154,13 +308,16 @@
             ? `<img class="news-img" src="${news.image}" alt="Новость">`
             : "";
 
+          // Преобразование Markdown в HTML
+          const contentHTML = parseMarkdown(news.text);
+
           div.innerHTML = `
             ${imgPart}
             <div class="news-header">
               <span class="news-title">${news.title}</span>
               <span class="news-date">${news.date}</span>
             </div>
-            <p class="news-description">${news.text}</p>
+            <div class="news-content">${contentHTML}</div>
           `;
 
           container.appendChild(div);
