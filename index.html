@@ -1,75 +1,179 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vestalis — Новости</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Новости | Vestalis</title>
   <style>
-    body {
-      background-color: #141517;
-      color: #d1d5db;
-      font-family: 'Segoe UI', sans-serif;
+    :root {
+      --primary-color: #4a6fa5;
+      --light-color: #f8f9fa;
+      --dark-bg: #141517;
+      --card-bg: #0f1012;
+    }
+
+    * {
       margin: 0;
-      padding: 40px;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .news-container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .news-post {
-      background-color: #0f1012;
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 12px;
-      transition: background-color 0.2s ease;
-    }
-
-    .news-post:hover {
-      background-color: #101114;
-    }
-
-    .news-post img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 16px;
-    }
-
-    .news-post h2 {
-      margin: 0 0 10px 0;
-      font-size: 1.4em;
-      color: #e5e7eb;
-    }
-
-    .news-post p {
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
+      background: var(--dark-bg);
+      color: var(--light-color);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    a {
-      color: #60a5fa;
-      text-decoration: none;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .news-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px; /* маленький отступ между новостями */
     }
 
-    code {
-      background: #1e1e1e;
-      padding: 2px 5px;
-      border-radius: 4px;
-      font-family: monospace;
+    .news-item {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .news-item.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .news-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      max-height: 350px;
+      object-fit: cover;
+      background-color: #0a0a0a;
+    }
+
+    .news-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .news-title {
+      font-weight: 600;
+      font-size: 1.4em;
+      color: #ffffff;
+    }
+
+    .news-date {
+      font-size: 0.9em;
+      color: #b0b8c1;
+    }
+
+    .news-description {
+      color: #c8ccd2;
+      font-size: 1em;
+      line-height: 1.6;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 70px;
+      padding: 30px;
+      color: #888;
+      font-size: 0.9em;
+      border-top: 1px solid #1d1f22;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px 15px;
+      }
+
+      .news-title {
+        font-size: 1.2em;
+      }
+
+      .news-item {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="news-container" id="news-container"></div>
+  <div class="container">
+    <section class="news-section" id="news-container"></section>
+
+    <footer>
+      <p>© 2025 Vestalis Project. Все права защищены.</p>
+    </footer>
+  </div>
 
   <script>
+    // Проверка, виден ли элемент на экране
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.top <= window.innerHeight * 0.9 && rect.bottom >= 0;
+    }
+
+    function handleScrollAnimation() {
+      const elements = document.querySelectorAll(".news-item");
+      elements.forEach((el) => {
+        if (isElementInViewport(el)) el.classList.add("animate");
+      });
+    }
+
+    // Загрузка JSON-файла
     async function loadNews() {
       try {
         const response = await fetch("news.json?nocache=" + Date.now());
-        const news = await response.json();
-        const container = document.getElementById("n
+        const newsData = await response.json();
+        const container = document.getElementById("news-container");
+
+        // Сортировка по дате
+        newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        newsData.forEach((news) => {
+          const div = document.createElement("div");
+          div.classList.add("news-item");
+
+          const imgPart = news.image
+            ? `<img class="news-img" src="${news.image}" alt="Новость">`
+            : "";
+
+          div.innerHTML = `
+            ${imgPart}
+            <div class="news-header">
+              <span class="news-title">${news.title}</span>
+              <span class="news-date">${news.date}</span>
+            </div>
+            <p class="news-description">${news.text}</p>
+          `;
+
+          container.appendChild(div);
+        });
+
+        handleScrollAnimation();
+        window.addEventListener("scroll", handleScrollAnimation);
+      } catch (error) {
+        console.error("Ошибка загрузки новостей:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadNews);
+  </script>
+</body>
+</html>
