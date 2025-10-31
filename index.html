@@ -36,7 +36,7 @@
     .news-section {
       display: flex;
       flex-direction: column;
-      gap: 15px; /* маленький отступ между новостями */
+      gap: 15px;
     }
 
     .news-item {
@@ -82,11 +82,116 @@
       color: #b0b8c1;
     }
 
-    .news-description {
+    .news-content {
       color: #c8ccd2;
       font-size: 1em;
       line-height: 1.6;
       margin-top: 5px;
+    }
+
+    /* Стили для Markdown контента */
+    .news-content h1, 
+    .news-content h2, 
+    .news-content h3, 
+    .news-content h4, 
+    .news-content h5, 
+    .news-content h6 {
+      color: #ffffff;
+      margin: 20px 0 10px 0;
+      line-height: 1.3;
+    }
+
+    .news-content h1 { font-size: 1.8em; }
+    .news-content h2 { font-size: 1.6em; }
+    .news-content h3 { font-size: 1.4em; }
+    .news-content h4 { font-size: 1.2em; }
+    .news-content h5 { font-size: 1.1em; }
+    .news-content h6 { font-size: 1em; color: #b0b8c1; }
+
+    .news-content p {
+      margin-bottom: 15px;
+    }
+
+    .news-content strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .news-content em {
+      font-style: italic;
+      color: #d8dce2;
+    }
+
+    .news-content del {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    .news-content a {
+      color: #4a90e2;
+      text-decoration: none;
+      border-bottom: 1px solid #4a90e2;
+      transition: color 0.3s ease;
+    }
+
+    .news-content a:hover {
+      color: #6aa8f4;
+      border-bottom-color: #6aa8f4;
+    }
+
+    .news-content code {
+      background: #2d2f33;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #e6e6e6;
+    }
+
+    .news-content pre {
+      background: #2d2f33;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    .news-content pre code {
+      background: none;
+      padding: 0;
+      color: #e6e6e6;
+    }
+
+    .news-content blockquote {
+      border-left: 4px solid #4a6fa5;
+      padding-left: 15px;
+      margin: 15px 0;
+      color: #b0b8c1;
+      font-style: italic;
+    }
+
+    .news-content ul, 
+    .news-content ol {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+
+    .news-content li {
+      margin-bottom: 5px;
+    }
+
+    .news-content hr {
+      border: none;
+      height: 2px;
+      background: #2d2f33;
+      margin: 25px 0;
+    }
+
+    .markdown-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 15px 0;
     }
 
     footer {
@@ -110,6 +215,10 @@
       .news-item {
         padding: 20px;
       }
+
+      .news-content h1 { font-size: 1.5em; }
+      .news-content h2 { font-size: 1.3em; }
+      .news-content h3 { font-size: 1.2em; }
     }
   </style>
 </head>
@@ -122,7 +231,13 @@
     </footer>
   </div>
 
+  <!-- Подключаем Markdown парсер -->
+  <script src="markdown-parser.js"></script>
+
   <script>
+    // Создаем экземпляр парсера
+    const markdownParser = new MarkdownParser();
+
     // Проверка, виден ли элемент на экране
     function isElementInViewport(el) {
       const rect = el.getBoundingClientRect();
@@ -154,13 +269,16 @@
             ? `<img class="news-img" src="${news.image}" alt="Новость">`
             : "";
 
+          // Преобразуем Markdown в HTML
+          const contentHtml = markdownParser.parse(news.text);
+
           div.innerHTML = `
             ${imgPart}
             <div class="news-header">
               <span class="news-title">${news.title}</span>
               <span class="news-date">${news.date}</span>
             </div>
-            <p class="news-description">${news.text}</p>
+            <div class="news-content">${contentHtml}</div>
           `;
 
           container.appendChild(div);
